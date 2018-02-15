@@ -1,0 +1,26 @@
+<!DOCTYPE mapper
+PUBLIC "-//abc"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.appsys.dao.appVersion.AppVersionMapper">
+     <delete id="deleteByAppId">
+        delete from app_version where appId=#{id}
+     </delete>
+     <insert id="addVersion" parameterType="AppVersion" useGeneratedKeys="true" keyProperty="id">
+        insert into app_version (appId,versionNo,versionInfo,publishStatus,downloadLink,versionSize,createdBy,
+        creationDate,apkLocPath,apkFileName) values(#{appId},#{versionNo},#{versionInfo},#{publishStatus},#{downloadLink},
+        #{versionSize},#{createdBy},NOW(),#{apkLocPath},#{apkFileName})
+     </insert>
+     <select id="getNewVersion" resultType="AppVersion">
+       select from app_version where appId=#{id}
+     </select>
+     <update id="updateVersion" parameterType="AppVersion">
+        update app_version set versionInfo=#{versionInfo},versionSize=#{versionSize},
+        <if test="downloadLink!=null and downloadLink!=''">downloadLink=#{downloadLink},apkLocPath=#{apkLocPath},apkFileName=#{apkFileName},
+        </if>
+        modifyBy=#{modifyBy},modifyDate=NOW() where id=#{id}
+     </update>
+     <delete id="deleteApkFile">
+         update  app_version set downloadLink=NULL,apkLocPath=NULL,
+        apkFileName=NULL where id=#{id}
+     </delete>
+</mapper>

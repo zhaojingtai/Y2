@@ -1,0 +1,16 @@
+<!DOCTYPE mapper
+PUBLIC "-//abc"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.appsys.dao.appCategory.AppCategoryMapper">
+  <select id="getListCategoryByParent" resultType="AppCategory">
+     select * from app_category 
+     
+     <if test="id==null or id==''">
+        where  parentId IS NULL
+     </if>
+      <if test="id!=null and id!='' and id!='0'">
+        where  parentId =#{id}
+     </if>
+     
+  </select>
+</mapper>
